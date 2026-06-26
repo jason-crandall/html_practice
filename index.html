@@ -1,6 +1,5 @@
-
-
 ```html
+<!-- Northern Hemisphere Email Marketing Law Map -->
 <div class="law-map-wrapper">
   <div class="law-map-header">
     <h2>Email Marketing Laws Across the Northern Hemisphere</h2>
@@ -8,42 +7,19 @@
   </div>
 
   <div class="law-map-area">
-    <svg class="nh-map" viewBox="0 0 1000 520" role="img" aria-label="Northern Hemisphere clickable email marketing law map">
-      <rect width="1000" height="520" fill="#eaf6ff"/>
 
-      <!-- ocean grid -->
-      <g stroke="#c8deef" stroke-width="1" opacity=".7">
-        <path d="M0 130 H1000 M0 230 H1000 M0 330 H1000 M0 430 H1000"/>
-        <path d="M100 0 V520 M250 0 V520 M400 0 V520 M550 0 V520 M700 0 V520 M850 0 V520"/>
-      </g>
+    <!-- Map base image from Wikimedia Commons -->
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
+      alt="Northern Hemisphere world map"
+      class="map-image"
+    />
 
-      <!-- simplified northern hemisphere landmasses -->
-      <path class="land" d="M80 95 C160 25 315 35 390 95 C445 140 405 230 310 245 C210 260 95 215 55 160 C35 130 48 115 80 95 Z"/>
-      <path class="land" d="M155 245 C230 220 325 225 390 265 C430 290 400 340 320 355 C230 372 135 345 95 305 C65 275 95 255 155 245 Z"/>
-      <path class="land" d="M455 125 C545 75 665 85 735 135 C805 185 760 270 660 280 C560 290 450 245 420 185 C405 155 420 140 455 125 Z"/>
-      <path class="land" d="M705 120 C800 55 950 80 980 160 C1010 240 910 315 790 280 C720 260 650 170 705 120 Z"/>
-
-      <!-- clickable regions -->
-      <g class="region canada" onclick="showLaw('casl')" tabindex="0">
-        <path d="M100 105 C170 55 300 60 365 105 C395 130 360 165 285 175 C205 185 115 165 82 135 C65 120 75 112 100 105 Z"/>
-        <text x="230" y="132">Canada</text>
-      </g>
-
-      <g class="region usa" onclick="showLaw('canSpam')" tabindex="0">
-        <path d="M130 230 C205 205 315 210 375 250 C410 275 365 315 280 325 C200 335 120 310 95 275 C80 255 95 240 130 230 Z"/>
-        <text x="245" y="270">United States</text>
-      </g>
-
-      <g class="region california" onclick="showLaw('ccpa')" tabindex="0">
-        <path d="M112 260 L150 268 L142 330 L105 315 Z"/>
-        <text x="95" y="350">California</text>
-      </g>
-
-      <g class="region eu" onclick="showLaw('gdpr')" tabindex="0">
-        <path d="M520 175 C560 145 625 150 655 185 C680 215 650 250 585 250 C530 250 490 225 490 195 C490 185 500 180 520 175 Z"/>
-        <text x="575" y="207">EU</text>
-      </g>
-    </svg>
+    <!-- Clickable overlays -->
+    <button class="map-region canada" onclick="showLaw('casl')">Canada</button>
+    <button class="map-region usa" onclick="showLaw('canSpam')">United States</button>
+    <button class="map-region california" onclick="showLaw('ccpa')">California</button>
+    <button class="map-region eu" onclick="showLaw('gdpr')">European Union</button>
 
     <div id="lawCard" class="law-card">
       <button class="close-btn" onclick="closeLaw()">×</button>
@@ -83,57 +59,65 @@
 }
 
 .law-map-area {
+  position: relative;
   padding: 24px;
   background: #f8fafc;
 }
 
-.nh-map {
+.map-image {
   width: 100%;
+  height: 470px;
+  object-fit: cover;
+  object-position: center top;
   border-radius: 14px;
   border: 1px solid #d8e8f7;
-  background: #eaf6ff;
+  filter: saturate(.85) brightness(1.05);
 }
 
-.land {
-  fill: #d8e5dc;
-  stroke: #a8b7aa;
-  stroke-width: 2;
-}
-
-.region {
+/* clickable regions */
+.map-region {
+  position: absolute;
+  border: 3px solid white;
+  color: white;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 16px;
   cursor: pointer;
-  transition: transform .2s ease, filter .2s ease;
-  transform-origin: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
 }
 
-.region:hover,
-.region:focus {
-  transform: scale(1.08);
-  filter: drop-shadow(0 8px 8px rgba(0,0,0,.25));
+.map-region:hover,
+.map-region:focus {
+  transform: scale(1.15);
+  box-shadow: 0 8px 22px rgba(0,0,0,.35);
+  opacity: .95;
   outline: none;
 }
 
-.region path {
-  stroke: white;
-  stroke-width: 3;
+.canada {
+  top: 120px;
+  left: 170px;
+  background: #2f80ed;
 }
 
-.region text {
-  fill: white;
-  font-weight: 700;
-  font-size: 24px;
-  text-anchor: middle;
-  pointer-events: none;
+.usa {
+  top: 205px;
+  left: 210px;
+  background: #27ae60;
 }
 
-.canada path { fill: #2f80ed; }
-.usa path { fill: #27ae60; }
-.california path { fill: #f2994a; }
-.eu path { fill: #9b51e0; }
+.california {
+  top: 245px;
+  left: 145px;
+  background: #f2994a;
+  color: #111827;
+}
 
-.california text {
-  fill: #1f2937;
-  font-size: 20px;
+.eu {
+  top: 185px;
+  left: 535px;
+  background: #9b51e0;
 }
 
 .law-card {
@@ -149,6 +133,11 @@
 .law-card h3 {
   margin: 0 0 12px;
   color: #0f172a;
+}
+
+.law-card ul {
+  margin: 0;
+  padding-left: 22px;
 }
 
 .law-card li {
@@ -168,6 +157,26 @@
   height: 32px;
   font-size: 22px;
   cursor: pointer;
+}
+
+.close-btn:hover {
+  background: #cfe1f5;
+}
+
+@media (max-width: 700px) {
+  .map-image {
+    height: 360px;
+  }
+
+  .map-region {
+    font-size: .75rem;
+    padding: 8px 10px;
+  }
+
+  .canada { top: 110px; left: 90px; }
+  .usa { top: 175px; left: 115px; }
+  .california { top: 210px; left: 70px; }
+  .eu { top: 160px; left: 335px; }
 }
 </style>
 
@@ -239,4 +248,3 @@ function closeLaw() {
 }
 </script>
 ```
-
