@@ -1,0 +1,200 @@
+```html
+<div class="mobile-match">
+  <div class="match-header">
+    <h2>Mobile Marketing Matching Exercise</h2>
+    <p>Match each mobile marketing concept with the best description.</p>
+  </div>
+
+  <div class="match-body">
+
+    <div class="match-card">
+      <p><strong>1. SMS marketing</strong></p>
+      <select data-answer="Text messages sent to consumers who have given consent">
+        <option value="">Select a match</option>
+        <option>Paid ads shown inside mobile applications</option>
+        <option>Text messages sent to consumers who have given consent</option>
+        <option>A virtual boundary that triggers a message based on location</option>
+        <option>A free listing that helps businesses appear in local mobile search</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>2. Push notifications</strong></p>
+      <select data-answer="Messages sent through an app or website to re-engage users">
+        <option value="">Select a match</option>
+        <option>Messages sent through an app or website to re-engage users</option>
+        <option>Short-range messages sent using Bluetooth technology</option>
+        <option>A law regulating commercial text messaging</option>
+        <option>Ads that appear when users search on mobile devices</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>3. Geo-fencing</strong></p>
+      <select data-answer="A virtual boundary that triggers a message based on location">
+        <option value="">Select a match</option>
+        <option>A free listing that helps businesses appear in local mobile search</option>
+        <option>Text messages sent to consumers who have given consent</option>
+        <option>A virtual boundary that triggers a message based on location</option>
+        <option>Marketing messages sent through email only</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>4. Bluetooth beacons</strong></p>
+      <select data-answer="Short-range messages sent using Bluetooth technology">
+        <option value="">Select a match</option>
+        <option>Messages sent through an app or website to re-engage users</option>
+        <option>Short-range messages sent using Bluetooth technology</option>
+        <option>Paid search results shown on desktop only</option>
+        <option>A customer review platform</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>5. Google Business Profile</strong></p>
+      <select data-answer="A free listing that helps businesses appear in local mobile search">
+        <option value="">Select a match</option>
+        <option>A free listing that helps businesses appear in local mobile search</option>
+        <option>A virtual boundary that triggers a message based on location</option>
+        <option>Paid ads shown inside mobile applications</option>
+        <option>Messages sent through an app or website to re-engage users</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>6. In-app advertising</strong></p>
+      <select data-answer="Paid ads shown inside mobile applications">
+        <option value="">Select a match</option>
+        <option>Short-range messages sent using Bluetooth technology</option>
+        <option>A law regulating commercial text messaging</option>
+        <option>Paid ads shown inside mobile applications</option>
+        <option>A free listing that helps businesses appear in local mobile search</option>
+      </select>
+    </div>
+
+    <div class="match-card">
+      <p><strong>7. TCPA</strong></p>
+      <select data-answer="A law requiring consent before many commercial text messages are sent">
+        <option value="">Select a match</option>
+        <option>Ads that appear before, during, or after mobile video content</option>
+        <option>A law requiring consent before many commercial text messages are sent</option>
+        <option>A type of social media engagement metric</option>
+        <option>A paid placement in mobile app stores</option>
+      </select>
+    </div>
+
+    <button onclick="checkMobileMatch()">Check Answers</button>
+    <div id="mobile-results"></div>
+  </div>
+</div>
+
+<style>
+.mobile-match {
+  max-width: 900px;
+  margin: 24px auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  background: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.match-header {
+  background: linear-gradient(135deg, #0056b3, #0078d4);
+  color: white;
+  padding: 26px 32px;
+}
+
+.match-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.match-header p {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  opacity: .95;
+}
+
+.match-body {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.match-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.match-card p {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+}
+
+button {
+  background: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #005ea6;
+}
+
+.correct {
+  border: 2px solid #22c55e !important;
+  background-color: #f0fdf4;
+}
+
+.incorrect {
+  border: 2px solid #ef4444 !important;
+  background-color: #fef2f2;
+}
+
+#mobile-results {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+</style>
+
+<script>
+function checkMobileMatch() {
+  let score = 0;
+  const selects = document.querySelectorAll('.mobile-match select');
+
+  selects.forEach(select => {
+    select.classList.remove('correct', 'incorrect');
+
+    if (select.value === select.dataset.answer) {
+      score++;
+      select.classList.add('correct');
+    } else {
+      select.classList.add('incorrect');
+    }
+  });
+
+  document.getElementById('mobile-results').innerHTML =
+    `You answered <strong>${score} out of ${selects.length}</strong> correctly.`;
+}
+</script>
+```
