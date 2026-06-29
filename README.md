@@ -1,2 +1,250 @@
-# html_practice
-Practice examples for courses
+
+<!-- Northern Hemisphere Email Marketing Law Map -->
+<div class="law-map-wrapper">
+  <div class="law-map-header">
+    <h2>Email Marketing Laws Across the Northern Hemisphere</h2>
+    <p>Click a highlighted region to review the related email marketing regulation.</p>
+  </div>
+
+  <div class="law-map-area">
+
+    <!-- Map base image from Wikimedia Commons -->
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
+      alt="Northern Hemisphere world map"
+      class="map-image"
+    />
+
+    <!-- Clickable overlays -->
+    <button class="map-region canada" onclick="showLaw('casl')">Canada</button>
+    <button class="map-region usa" onclick="showLaw('canSpam')">US</button>
+    <button class="map-region california" onclick="showLaw('ccpa')">California</button>
+    <button class="map-region eu" onclick="showLaw('gdpr')">European Union</button>
+
+    <div id="lawCard" class="law-card">
+      <button class="close-btn" onclick="closeLaw()">×</button>
+      <h3 id="lawTitle">Select a Region</h3>
+      <ul id="lawDetails">
+        <li>Click Canada, the United States, California, or the European Union to view email marketing regulations.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.law-map-wrapper {
+  max-width: 1000px;
+  margin: 24px auto;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.12);
+  overflow: hidden;
+}
+
+.law-map-header {
+  background: linear-gradient(135deg, #004f9e, #0078d4);
+  color: white;
+  padding: 24px 32px;
+}
+
+.law-map-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.law-map-header p {
+  margin: 8px 0 0;
+  opacity: .95;
+}
+
+.law-map-area {
+  position: relative;
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.map-image {
+  width: 100%;
+  height: 470px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 14px;
+  border: 1px solid #d8e8f7;
+  filter: saturate(.85) brightness(1.05);
+}
+
+/* clickable regions */
+.map-region {
+  position: absolute;
+  border: 3px solid white;
+  color: white;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.map-region:hover,
+.map-region:focus {
+  transform: scale(1.15);
+  box-shadow: 0 8px 22px rgba(0,0,0,.35);
+  opacity: .95;
+  outline: none;
+}
+
+.canada {
+  top: 85px;
+  left: 175px;
+  background: #2f80ed;
+}
+
+.usa {
+  top: 155px;
+  left: 230px;
+  background: #27ae60;
+}
+
+.california {
+  top: 165px;
+  left: 135px;
+  background: #f2994a;
+  color: #111827;
+}
+
+.eu {
+  top: 85px;
+  left: 505px;
+  background: #9b51e0;
+}
+
+.law-card {
+  margin-top: 20px;
+  background: white;
+  border-left: 8px solid #0078d4;
+  border-radius: 14px;
+  padding: 22px 26px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  position: relative;
+}
+
+.law-card h3 {
+  margin: 0 0 12px;
+  color: #0f172a;
+}
+
+.law-card ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.law-card li {
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: #e5eef8;
+  color: #0f172a;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: #cfe1f5;
+}
+
+@media (max-width: 700px) {
+  .map-image {
+    height: 360px;
+  }
+
+  .map-region {
+    font-size: .75rem;
+    padding: 8px 10px;
+  }
+
+  .canada { top: 110px; left: 90px; }
+  .usa { top: 175px; left: 115px; }
+  .california { top: 210px; left: 70px; }
+  .eu { top: 160px; left: 335px; }
+}
+</style>
+
+<script>
+const laws = {
+  canSpam: {
+    title: "CAN-SPAM Act (United States)",
+    color: "#27ae60",
+    details: [
+      "Regulates commercial email messages and helps reduce deceptive marketing practices",
+      "Does not require prior consent before sending marketing emails",
+      "Requires a clear and easy way for recipients to unsubscribe",
+      "Requires accurate sender information, truthful subject lines, and a physical mailing address in emails"
+    ]
+  },
+  gdpr: {
+    title: "GDPR (European Union)",
+    color: "#9b51e0",
+    details: [
+      "Protects personal data and consumer privacy",
+      "Requires explicit, informed consent before collecting or using personal data for marketing",
+      "Gives individuals the right to access, correct, delete, and transfer their personal data",
+      "Requires organizations to explain how data will be used and maintain proof of consent"
+    ]
+  },
+  ccpa: {
+    title: "CCPA (California Consumer Privacy Act)",
+    color: "#f2994a",
+    details: [
+      "Gives California residents greater control over their personal information",
+      "Requires organizations to disclose what personal data they collect and how it is used",
+      "Allows consumers to request access to or deletion of their personal information",
+      "Gives consumers the right to opt out of the sale or sharing of their personal data"
+    ]
+  },
+  casl: {
+    title: "CASL (Canada's Anti-Spam Legislation)",
+    color: "#2f80ed",
+    details: [
+      "Protects consumers from unsolicited commercial electronic messages",
+      "Requires express or implied consent before most marketing emails can be sent",
+      "Requires marketers to clearly identify themselves in communications",
+      "Requires every marketing email to include an easy-to-use unsubscribe option",
+      "Allows consumers to withdraw consent at any time"
+    ]
+  }
+};
+
+function showLaw(lawKey) {
+  const law = laws[lawKey];
+  document.getElementById("lawTitle").textContent = law.title;
+  document.getElementById("lawCard").style.borderLeftColor = law.color;
+
+  const detailsList = document.getElementById("lawDetails");
+  detailsList.innerHTML = "";
+
+  law.details.forEach(detail => {
+    const li = document.createElement("li");
+    li.textContent = detail;
+    detailsList.appendChild(li);
+  });
+}
+
+function closeLaw() {
+  document.getElementById("lawTitle").textContent = "Select a Region";
+  document.getElementById("lawCard").style.borderLeftColor = "#0078d4";
+  document.getElementById("lawDetails").innerHTML =
+    "<li>Click Canada, the United States, California, or the European Union to view email marketing regulations.</li>";
+}
+</script>
+```
