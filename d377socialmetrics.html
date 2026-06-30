@@ -1,0 +1,231 @@
+<div class="social-metrics-activity">
+  <div class="activity-header">
+    <h2>Social Media Metrics Checkpoint</h2>
+    <p>Identify which metric best matches each social media interaction.</p>
+  </div>
+
+  <div class="activity-body">
+
+    <div class="question-card">
+      <p><strong>1. A brand's Instagram post receives 350 likes and reactions.</strong></p>
+      <select data-answer="applause rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>2. A LinkedIn post generates 42 comments and replies from followers.</strong></p>
+      <select data-answer="conversation rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>3. A TikTok video is shared 180 times by viewers.</strong></p>
+      <select data-answer="amplification rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>4. A Facebook post receives likes, comments, shares, and clicks.</strong></p>
+      <select data-answer="total engagement">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>5. A YouTube community post receives many user replies discussing the topic.</strong></p>
+      <select data-answer="conversation rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>6. A product announcement is reposted by customers across their own networks.</strong></p>
+      <select data-answer="amplification rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>7. A social media dashboard combines all likes, comments, shares, and clicks for one campaign.</strong></p>
+      <select data-answer="total engagement">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <div class="question-card">
+      <p><strong>8. A brand post receives hundreds of heart reactions from followers.</strong></p>
+      <select data-answer="applause rate">
+        <option value="">Select a metric</option>
+        <option>applause rate</option>
+        <option>conversation rate</option>
+        <option>amplification rate</option>
+        <option>total engagement</option>
+      </select>
+    </div>
+
+    <button onclick="checkSocialMetrics()">Check Answers</button>
+    <button class="reset-button" onclick="resetSocialMetrics()">Reset</button>
+
+    <div id="social-results"></div>
+  </div>
+</div>
+
+<style>
+.social-metrics-activity {
+  max-width: 900px;
+  margin: 24px auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  background: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.activity-header {
+  background: linear-gradient(135deg, #0056b3, #0078d4);
+  color: white;
+  padding: 26px 32px;
+}
+
+.activity-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.activity-header p {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  opacity: .95;
+}
+
+.activity-body {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.question-card p {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+}
+
+button {
+  background: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-right: 8px;
+}
+
+button:hover {
+  background: #005ea6;
+}
+
+.reset-button {
+  background: #64748b;
+}
+
+.reset-button:hover {
+  background: #475569;
+}
+
+.correct {
+  border: 2px solid #22c55e !important;
+  background-color: #f0fdf4;
+}
+
+.incorrect {
+  border: 2px solid #ef4444 !important;
+  background-color: #fef2f2;
+}
+
+#social-results {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+</style>
+
+<script>
+function checkSocialMetrics() {
+  let score = 0;
+  const selects = document.querySelectorAll('.social-metrics-activity select');
+
+  selects.forEach(select => {
+    select.classList.remove('correct', 'incorrect');
+
+    if (select.value === select.dataset.answer) {
+      score++;
+      select.classList.add('correct');
+    } else {
+      select.classList.add('incorrect');
+    }
+  });
+
+  document.getElementById('social-results').innerHTML =
+    `You answered <strong>${score} out of ${selects.length}</strong> correctly.`;
+}
+
+function resetSocialMetrics() {
+  const selects = document.querySelectorAll('.social-metrics-activity select');
+
+  selects.forEach(select => {
+    select.value = "";
+    select.classList.remove('correct', 'incorrect');
+  });
+
+  document.getElementById('social-results').innerHTML = "";
+}
+</script>
