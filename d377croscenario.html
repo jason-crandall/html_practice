@@ -1,0 +1,300 @@
+```html
+<div class="cro-assessment">
+  <div class="cro-header">
+    <h2>CRO Challenge: Orange Zest Café</h2>
+    <p>Help Orange Zest Café improve loyalty card sign-ups by choosing the best CRO concept for each scenario.</p>
+  </div>
+
+  <div class="cro-body">
+    <div class="scenario-box">
+      <h3>Scenario</h3>
+      <p>Orange Zest Café wants more customers to sign up for its loyalty card through the website. Kaitlin is testing social posts, landing pages, and calls to action to see what improves conversions.</p>
+    </div>
+
+    <div id="questions"></div>
+
+    <button onclick="checkAnswers()">Check Answers</button>
+    <button class="reset-btn" onclick="resetQuiz()">Reset</button>
+
+    <div id="results"></div>
+  </div>
+</div>
+
+<style>
+.cro-assessment {
+  max-width: 950px;
+  margin: 24px auto;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,.14);
+}
+
+.cro-header {
+  background: linear-gradient(135deg, #004f9e, #0078d4);
+  color: white;
+  padding: 28px 34px;
+}
+
+.cro-header h2 {
+  margin: 0;
+  font-size: 1.9rem;
+}
+
+.cro-header p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  opacity: .95;
+}
+
+.cro-body {
+  padding: 26px;
+  background: #f8fafc;
+}
+
+.scenario-box {
+  background: #eaf4ff;
+  border-left: 6px solid #0078d4;
+  padding: 18px 22px;
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+
+.scenario-box h3 {
+  margin: 0 0 8px;
+  color: #0f3f73;
+}
+
+.question-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.07);
+  border: 2px solid transparent;
+}
+
+.question-card p {
+  margin-top: 0;
+  color: #1f2937;
+  line-height: 1.45;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: white;
+}
+
+button {
+  background: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 12px 8px 0 0;
+}
+
+button:hover {
+  background: #005ea6;
+}
+
+.reset-btn {
+  background: #64748b;
+}
+
+.reset-btn:hover {
+  background: #475569;
+}
+
+.correct {
+  border-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.incorrect {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.feedback {
+  margin-top: 10px;
+  font-size: .95rem;
+  line-height: 1.4;
+}
+
+.feedback.correct-text {
+  color: #166534;
+}
+
+.feedback.incorrect-text {
+  color: #991b1b;
+}
+
+#results {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: none;
+}
+
+.results-good {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.results-review {
+  background: #fff7ed;
+  color: #9a3412;
+}
+</style>
+
+<script>
+const croQuestions = [
+  {
+    prompt: "1. Kaitlin wants to know how many visitors complete the main goal: signing up for the loyalty card.",
+    answer: "macro-conversion",
+    feedback: "A macro-conversion is the main goal of the campaign."
+  },
+  {
+    prompt: "2. A visitor clicks from Instagram, views the loyalty page, and starts filling out the form but does not submit it.",
+    answer: "micro-conversion",
+    feedback: "A micro-conversion shows progress toward the main goal."
+  },
+  {
+    prompt: "3. Orange Zest notices that many visitors reach the sign-up page but leave before submitting the form.",
+    answer: "conversion funnel",
+    feedback: "The conversion funnel helps marketers identify where people drop off."
+  },
+  {
+    prompt: "4. Kaitlin creates a webpage focused only on the loyalty card offer, with no extra menu distractions.",
+    answer: "landing page",
+    feedback: "A landing page is designed around one clear marketing goal."
+  },
+  {
+    prompt: "5. The page button says 'Join the Loyalty Program' instead of 'Click Here.'",
+    answer: "call to action (CTA)",
+    feedback: "A CTA tells users exactly what action to take."
+  },
+  {
+    prompt: "6. Kaitlin compares two versions of the sign-up page: one with a blue button and one with an orange button.",
+    answer: "A/B testing",
+    feedback: "A/B testing compares two versions or one major change."
+  },
+  {
+    prompt: "7. Kaitlin tests several headlines, images, button colors, and form lengths at the same time.",
+    answer: "multivariate testing",
+    feedback: "Multivariate testing evaluates multiple elements and combinations."
+  },
+  {
+    prompt: "8. The original page had a 5% conversion rate. The new page has a 7% conversion rate.",
+    answer: "lift",
+    feedback: "Lift is the improvement in performance after a change."
+  }
+];
+
+const options = [
+  "conversion funnel",
+  "micro-conversion",
+  "macro-conversion",
+  "landing page",
+  "call to action (CTA)",
+  "A/B testing",
+  "multivariate testing",
+  "lift"
+];
+
+function buildQuiz() {
+  const container = document.getElementById("questions");
+  container.innerHTML = "";
+
+  croQuestions.forEach((q, index) => {
+    const card = document.createElement("div");
+    card.className = "question-card";
+
+    const prompt = document.createElement("p");
+    prompt.innerHTML = `<strong>${q.prompt}</strong>`;
+
+    const select = document.createElement("select");
+    select.dataset.answer = q.answer;
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select the best answer";
+    select.appendChild(defaultOption);
+
+    options.forEach(optionText => {
+      const option = document.createElement("option");
+      option.value = optionText;
+      option.textContent = optionText;
+      select.appendChild(option);
+    });
+
+    const feedback = document.createElement("div");
+    feedback.className = "feedback";
+    feedback.id = `feedback-${index}`;
+
+    card.appendChild(prompt);
+    card.appendChild(select);
+    card.appendChild(feedback);
+    container.appendChild(card);
+  });
+}
+
+function checkAnswers() {
+  let score = 0;
+  const cards = document.querySelectorAll(".question-card");
+  const selects = document.querySelectorAll(".question-card select");
+
+  selects.forEach((select, index) => {
+    const card = cards[index];
+    const feedback = document.getElementById(`feedback-${index}`);
+
+    card.classList.remove("correct", "incorrect");
+    feedback.className = "feedback";
+
+    if (select.value === select.dataset.answer) {
+      score++;
+      card.classList.add("correct");
+      feedback.classList.add("correct-text");
+      feedback.textContent = "Correct: " + croQuestions[index].feedback;
+    } else {
+      card.classList.add("incorrect");
+      feedback.classList.add("incorrect-text");
+      feedback.textContent = "Review: The best answer is " + select.dataset.answer + ". " + croQuestions[index].feedback;
+    }
+  });
+
+  const results = document.getElementById("results");
+  results.style.display = "block";
+  results.className = score >= 6 ? "results-good" : "results-review";
+  results.innerHTML = `You answered ${score} out of ${croQuestions.length} correctly. ${
+    score >= 6
+      ? "Great work! You are ready to describe the CRO process."
+      : "Review the feedback above, then try again."
+  }`;
+}
+
+function resetQuiz() {
+  document.querySelectorAll("select").forEach(select => select.value = "");
+  document.querySelectorAll(".question-card").forEach(card => {
+    card.classList.remove("correct", "incorrect");
+  });
+  document.querySelectorAll(".feedback").forEach(feedback => {
+    feedback.textContent = "";
+    feedback.className = "feedback";
+  });
+  document.getElementById("results").style.display = "none";
+}
+
+buildQuiz();
+</script>
+```
