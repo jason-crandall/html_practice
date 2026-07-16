@@ -1,0 +1,1232 @@
+<h3>Interactive Learning Activity</h3>
+<style>
+  .aa-activity,
+  .aa-activity * {
+    box-sizing: border-box;
+  }
+
+  .aa-activity {
+    --aa-midnight: #001731;
+    --aa-blue: #002855;
+    --aa-ocean: #3778bc;
+    --aa-teal: #008575;
+    --aa-iris: #5e3c99;
+    --aa-rust: #c25628;
+    --aa-stone: #757575;
+    --aa-light-blue: #eaf3fb;
+    --aa-light-teal: #e6f5f2;
+    --aa-light-iris: #f0ebf7;
+    --aa-light-rust: #faeee8;
+    --aa-light-gray: #f5f7fa;
+    --aa-white: #ffffff;
+    --aa-success: #18763c;
+    --aa-error: #8f0005;
+    --aa-border: #c9d2dc;
+    --aa-shadow: 0 8px 24px rgba(0, 23, 49, 0.1);
+
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 16px;
+    color: var(--aa-midnight);
+    background: #eef2f6;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .aa-activity p,
+  .aa-activity li,
+  .aa-activity label,
+  .aa-activity select,
+  .aa-activity button,
+  .aa-activity span,
+  .aa-activity div {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .aa-activity p {
+    font-size: 16px;
+  }
+
+  .aa-activity button,
+  .aa-activity select {
+    font-size: 16px;
+  }
+
+  .aa-activity button:focus-visible,
+  .aa-activity select:focus-visible {
+    outline: 4px solid #f5b700;
+    outline-offset: 3px;
+  }
+
+  .aa-hero {
+    padding: 28px;
+    color: var(--aa-white);
+    background: linear-gradient(
+      135deg,
+      var(--aa-midnight),
+      var(--aa-blue)
+    );
+    border-radius: 18px;
+    box-shadow: var(--aa-shadow);
+  }
+
+  .aa-eyebrow {
+    margin: 0 0 8px;
+    color: #b9dcff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .aa-activity-title {
+    margin: 0 0 14px;
+    color: var(--aa-white);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .aa-hero-description {
+    max-width: 820px;
+    margin: 0;
+    color: var(--aa-white);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .aa-hero-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .aa-info-card {
+    padding: 20px;
+    color: var(--aa-midnight);
+    background: var(--aa-white);
+    border: 1px solid var(--aa-border);
+    border-radius: 14px;
+    font-size: 16px;
+  }
+
+  .aa-section-title {
+    margin: 0 0 10px;
+    color: var(--aa-blue);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .aa-info-card p {
+    margin: 0;
+    color: var(--aa-midnight);
+    font-size: 16px;
+  }
+
+  .aa-info-card ul {
+    margin: 0;
+    padding-left: 22px;
+  }
+
+  .aa-info-card li {
+    margin: 0;
+    color: var(--aa-midnight);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .aa-info-card li + li {
+    margin-top: 6px;
+  }
+
+  .aa-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+    gap: 24px;
+    align-items: start;
+    margin-top: 24px;
+  }
+
+  .aa-panel,
+  .aa-board-panel,
+  .aa-results-panel {
+    overflow: hidden;
+    background: var(--aa-white);
+    border: 1px solid var(--aa-border);
+    border-radius: 16px;
+    box-shadow: var(--aa-shadow);
+  }
+
+  .aa-panel-label {
+    margin: 0;
+    padding: 12px 22px;
+    color: var(--aa-white);
+    background: var(--aa-ocean);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .aa-panel-content {
+    padding: 24px;
+    font-size: 16px;
+  }
+
+  .aa-panel-title {
+    margin: 0 0 8px;
+    color: var(--aa-blue);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .aa-panel-content > p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .aa-progress-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 22px 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .aa-progress-track {
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    background: #dfe5eb;
+    border-radius: 999px;
+  }
+
+  .aa-progress-fill {
+    width: 0;
+    height: 100%;
+    background: var(--aa-teal);
+    transition: width 250ms ease;
+  }
+
+  .aa-card {
+    margin-top: 24px;
+    padding: 24px;
+    background: var(--aa-light-blue);
+    border: 2px solid #b7d5ef;
+    border-radius: 14px;
+  }
+
+  .aa-card-number {
+    margin: 0;
+    color: var(--aa-stone);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .aa-amino-name {
+    margin: 6px 0;
+    color: var(--aa-blue);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .aa-amino-symbol {
+    display: inline-block;
+    margin: 5px 0 16px;
+    padding: 5px 11px;
+    color: var(--aa-white);
+    background: var(--aa-blue);
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .aa-property-clue {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .aa-response-area {
+    margin-top: 20px;
+  }
+
+  .aa-response-area label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .aa-category-select {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px;
+    color: var(--aa-midnight);
+    background: var(--aa-white);
+    border: 2px solid var(--aa-stone);
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .aa-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 19px;
+  }
+
+  .aa-button {
+    min-height: 46px;
+    padding: 11px 16px;
+    color: var(--aa-white);
+    background: var(--aa-blue);
+    border: 2px solid var(--aa-blue);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .aa-button:hover {
+    background: var(--aa-midnight);
+    border-color: var(--aa-midnight);
+  }
+
+  .aa-button-secondary {
+    color: var(--aa-blue);
+    background: var(--aa-white);
+  }
+
+  .aa-button-secondary:hover {
+    color: var(--aa-white);
+    background: var(--aa-blue);
+    border-color: var(--aa-blue);
+  }
+
+  .aa-button-reset {
+    color: var(--aa-error);
+    background: var(--aa-white);
+    border-color: var(--aa-error);
+  }
+
+  .aa-button-reset:hover {
+    color: var(--aa-white);
+    background: var(--aa-error);
+    border-color: var(--aa-error);
+  }
+
+  .aa-feedback {
+    min-height: 72px;
+    margin-top: 16px;
+    padding: 16px;
+    color: var(--aa-midnight);
+    background: var(--aa-light-gray);
+    border-left: 5px solid var(--aa-stone);
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  .aa-feedback.aa-correct {
+    color: #0e4e27;
+    background: #e7f5ec;
+    border-color: var(--aa-success);
+  }
+
+  .aa-feedback.aa-incorrect {
+    color: #660004;
+    background: #fae9ea;
+    border-color: var(--aa-error);
+  }
+
+  .aa-navigation {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--aa-border);
+  }
+
+  .aa-navigation-title {
+    margin: 0 0 5px;
+    color: var(--aa-blue);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .aa-navigation p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .aa-nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 13px;
+  }
+
+  .aa-nav-button {
+    width: 42px;
+    min-height: 42px;
+    padding: 0;
+    color: var(--aa-blue);
+    background: var(--aa-white);
+    border: 2px solid var(--aa-border);
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .aa-nav-button:hover,
+  .aa-nav-button.aa-current {
+    color: var(--aa-white);
+    background: var(--aa-blue);
+    border-color: var(--aa-blue);
+  }
+
+  .aa-nav-button.aa-completed {
+    color: var(--aa-white);
+    background: var(--aa-teal);
+    border-color: var(--aa-teal);
+  }
+
+  .aa-nav-button.aa-incorrect-item {
+    color: var(--aa-white);
+    background: var(--aa-error);
+    border-color: var(--aa-error);
+  }
+
+  .aa-board-panel {
+    position: sticky;
+    top: 16px;
+  }
+
+  .aa-board-grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 19px;
+  }
+
+  .aa-category {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .aa-category-title {
+    margin: 0 0 5px;
+    color: var(--aa-midnight);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .aa-category p {
+    margin: 0 0 11px;
+    font-size: 15px;
+  }
+
+  .aa-category-nonpolar {
+    background: var(--aa-light-teal);
+    border-left: 7px solid var(--aa-teal);
+  }
+
+  .aa-category-polar {
+    background: var(--aa-light-blue);
+    border-left: 7px solid var(--aa-ocean);
+  }
+
+  .aa-category-positive {
+    background: var(--aa-light-iris);
+    border-left: 7px solid var(--aa-iris);
+  }
+
+  .aa-category-negative {
+    background: var(--aa-light-rust);
+    border-left: 7px solid var(--aa-rust);
+  }
+
+  .aa-category-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    min-height: 40px;
+  }
+
+  .aa-amino-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 6px 10px;
+    color: var(--aa-midnight);
+    background: var(--aa-white);
+    border: 1px solid var(--aa-border);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .aa-empty-message {
+    color: #555f69;
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  .aa-results-panel {
+    margin-top: 24px;
+    padding: 24px;
+  }
+
+  .aa-results-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .aa-score-circle {
+    display: grid;
+    width: 110px;
+    height: 110px;
+    place-items: center;
+    color: var(--aa-white);
+    background: var(--aa-blue);
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .aa-results-title {
+    margin: 0 0 8px;
+    color: var(--aa-blue);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .aa-results-panel p {
+    margin: 6px 0;
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .aa-workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .aa-board-panel {
+      position: static;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .aa-hero {
+      padding: 22px;
+    }
+
+    .aa-hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .aa-progress-row {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .aa-activity {
+      padding: 8px;
+    }
+
+    .aa-hero,
+    .aa-panel-content,
+    .aa-results-panel {
+      padding: 18px;
+    }
+
+    .aa-results-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .aa-score-circle {
+      width: 96px;
+      height: 96px;
+    }
+
+    .aa-button {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aa-activity *,
+    .aa-activity *::before,
+    .aa-activity *::after {
+      transition: none !important;
+    }
+  }
+</style>
+<div class="aa-activity">
+<div class="aa-hero">
+<div class="aa-activity-title"><span style="color: #c2e0f4;">Amino Acid Classification Lab</span></div>
+<p class="aa-hero-description"><span style="color: #ecf0f1;">Practice grouping amino acids according to the chemical properties of their R-groups. You will review one amino acid at a time, select its category, and watch the classification board fill as you complete the activity.</span></p>
+<div class="aa-hero-grid">
+<div class="aa-info-card" role="region" aria-labelledby="aa-purpose-title">
+<div class="aa-section-title" id="aa-purpose-title">Purpose</div>
+<p>R-group properties influence how amino acids interact with water, other amino acids, and their surrounding environment. These interactions contribute to protein structure, stability, and function.</p>
+</div>
+<div class="aa-info-card" role="region" aria-labelledby="aa-instructions-title">
+<div class="aa-section-title" id="aa-instructions-title">How It Works</div>
+<ul>
+<li>Review one amino acid and its R-group clue.</li>
+<li>Select the matching R-group category.</li>
+<li>Submit the classification to receive feedback.</li>
+<li>Continue until all amino acids are classified.</li>
+<li>Watch the R-group classification board fill automatically.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="aa-workspace">
+<div class="aa-panel">
+<div class="aa-panel-label">Classification Lab</div>
+<div class="aa-panel-content">
+<div class="aa-panel-title">Amino Acid Review Panel</div>
+<p>Classify each amino acid according to the chemical properties of its R-group.</p>
+<div class="aa-progress-row"><span id="aaCardPosition"> Amino acid 1 of 16 </span> <span id="aaCompletionCount"> 0 of 16 completed </span></div>
+<div class="aa-progress-track" id="aaProgressTrack" role="progressbar" aria-label="Activity completion" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0">
+<div class="aa-progress-fill" id="aaProgressFill"></div>
+</div>
+<div class="aa-card" role="region" aria-labelledby="aaAminoName">
+<p class="aa-card-number" id="aaCardNumber">Amino acid 1</p>
+<div class="aa-amino-name" id="aaAminoName" tabindex="-1">Alanine</div>
+<span class="aa-amino-symbol" id="aaAminoSymbol"> Ala · A </span>
+<p class="aa-property-clue" id="aaPropertyClue">Its R-group is a small hydrocarbon that does not carry a charge.</p>
+<div class="aa-response-area"><label for="aaCategorySelect"> Choose the R-group category </label><select class="aa-category-select" id="aaCategorySelect">
+<option value="">Select a category</option>
+<option value="nonpolar">Nonpolar (hydrophobic)</option>
+<option value="polar">Polar (uncharged)</option>
+<option value="positive">Positively charged (basic)</option>
+<option value="negative">Negatively charged (acidic)</option>
+</select></div>
+<div class="aa-button-row"><button type="button" class="aa-button" id="aaSaveButton"> Submit Classification </button> <button type="button" class="aa-button aa-button-secondary" id="aaNextButton"> Next Amino Acid </button> <button type="button" class="aa-button aa-button-reset" id="aaResetButton"> Reset Activity </button></div>
+<div class="aa-feedback" id="aaFeedback" role="status" aria-live="polite">Select a category and submit your classification.</div>
+</div>
+<div class="aa-navigation" role="navigation" aria-label="Amino acid navigation">
+<div class="aa-navigation-title">Amino Acid Navigation</div>
+<p>Use these buttons to review the amino acids in any order.</p>
+<div class="aa-nav-buttons" id="aaNavButtons"></div>
+</div>
+</div>
+</div>
+<div class="aa-board-panel" role="region" aria-labelledby="aaBoardTitle">
+<div class="aa-panel-label">Classification Board</div>
+<div class="aa-panel-content">
+<div class="aa-panel-title" id="aaBoardTitle">Growing R-Group Board</div>
+<p>Each correctly classified amino acid appears in its matching category.</p>
+<div class="aa-board-grid">
+<div class="aa-category aa-category-nonpolar">
+<div class="aa-category-title">Nonpolar (Hydrophobic)</div>
+<p>R-groups that tend to avoid water and participate in hydrophobic interactions.</p>
+<div class="aa-category-items" id="aaNonpolarBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
+</div>
+<div class="aa-category aa-category-polar">
+<div class="aa-category-title">Polar (Uncharged)</div>
+<p>R-groups that can interact with water and often form hydrogen bonds.</p>
+<div class="aa-category-items" id="aaPolarBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
+</div>
+<div class="aa-category aa-category-positive">
+<div class="aa-category-title">Positively Charged (Basic)</div>
+<p>R-groups that can form ionic attractions with negatively charged groups.</p>
+<div class="aa-category-items" id="aaPositiveBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
+</div>
+<div class="aa-category aa-category-negative">
+<div class="aa-category-title">Negatively Charged (Acidic)</div>
+<p>R-groups that can form ionic attractions with positively charged groups.</p>
+<div class="aa-category-items" id="aaNegativeBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="aa-results-panel" role="region" aria-labelledby="aaResultsTitle">
+<div class="aa-results-layout">
+<div class="aa-score-circle" id="aaScoreCircle" aria-label="Current score">0%</div>
+<div>
+<div class="aa-results-title" id="aaResultsTitle">Lab Results</div>
+<p id="aaResultsMessage">Complete all amino acid cards to view your final results.</p>
+<p id="aaResultsDetail">Correct classifications: 0 of 16</p>
+</div>
+</div>
+</div>
+</div>
+<p>
+<script>
+  (function () {
+    "use strict";
+
+    const aminoAcids = [
+      {
+        name: "Alanine",
+        symbol: "Ala · A",
+        category: "nonpolar",
+        clue:
+          "Its R-group is a small hydrocarbon that does not carry a charge."
+      },
+      {
+        name: "Glutamate",
+        symbol: "Glu · E",
+        category: "negative",
+        clue:
+          "Its side-chain carboxylate commonly carries a negative charge under physiological conditions."
+      },
+      {
+        name: "Leucine",
+        symbol: "Leu · L",
+        category: "nonpolar",
+        clue:
+          "Its hydrocarbon side chain tends to cluster away from water."
+      },
+       {
+        name: "Histidine",
+        symbol: "His · H",
+        category: "positive",
+        clue:
+          "Its imidazole R-group can accept or release a proton near physiological pH."
+      },
+      {
+        name: "Glutamine",
+        symbol: "Gln · Q",
+        category: "polar",
+        clue:
+          "Its uncharged amide-containing R-group can interact with water."
+      },
+      {
+        name: "Serine",
+        symbol: "Ser · S",
+        category: "polar",
+        clue:
+          "Its R-group contains a hydroxyl group that can form hydrogen bonds."
+      },
+      {
+        name: "Isoleucine",
+        symbol: "Ile · I",
+        category: "nonpolar",
+        clue:
+          "Its branched hydrocarbon side chain is hydrophobic."
+      },
+      {
+        name: "Threonine",
+        symbol: "Thr · T",
+        category: "polar",
+        clue:
+          "Its uncharged hydroxyl-containing R-group interacts with water."
+      },
+      {
+        name: "Valine",
+        symbol: "Val · V",
+        category: "nonpolar",
+        clue:
+          "Its branched hydrocarbon R-group does not interact readily with water."
+      },
+      {
+        name: "Asparagine",
+        symbol: "Asn · N",
+        category: "polar",
+        clue:
+          "Its amide-containing R-group can form hydrogen bonds but has no net charge."
+      },
+      {
+        name: "Lysine",
+        symbol: "Lys · K",
+        category: "positive",
+        clue:
+          "Its R-group commonly contains a positively charged amino group under physiological conditions."
+      },
+      {
+        name: "Phenylalanine",
+        symbol: "Phe · F",
+        category: "nonpolar",
+        clue:
+          "Its aromatic hydrocarbon ring is largely hydrophobic."
+      },
+      {
+        name: "Arginine",
+        symbol: "Arg · R",
+        category: "positive",
+        clue:
+          "Its guanidinium-containing R-group commonly carries a positive charge."
+      },
+      {
+        name: "Tyrosine",
+        symbol: "Tyr · Y",
+        category: "polar",
+        clue:
+          "Its phenolic hydroxyl group can participate in hydrogen bonding."
+      },
+     
+      {
+        name: "Aspartate",
+        symbol: "Asp · D",
+        category: "negative",
+        clue:
+          "Its R-group contains a carboxylate group that commonly carries a negative charge."
+      },
+      {
+        name: "Methionine",
+        symbol: "Met · M",
+        category: "nonpolar",
+        clue:
+          "Its sulfur-containing thioether side chain is largely hydrophobic and uncharged."
+      }
+    ];
+
+    const categoryNames = {
+      nonpolar: "Nonpolar (hydrophobic)",
+      polar: "Polar (uncharged)",
+      positive: "Positively charged (basic)",
+      negative: "Negatively charged (acidic)"
+    };
+
+    const categoryFeedback = {
+      nonpolar:
+        "Nonpolar R-groups tend to avoid water and often cluster in the interior of a folded protein.",
+      polar:
+        "Polar, uncharged R-groups can interact with water and often participate in hydrogen bonding.",
+      positive:
+        "Positively charged R-groups can form ionic attractions with negatively charged groups.",
+      negative:
+        "Negatively charged R-groups can form ionic attractions with positively charged groups."
+    };
+
+    let currentIndex = 0;
+
+    const responses = aminoAcids.map(function () {
+      return {
+        selected: "",
+        attempted: false,
+        correct: false
+      };
+    });
+
+    const cardPosition =
+      document.getElementById("aaCardPosition");
+
+    const completionCount =
+      document.getElementById("aaCompletionCount");
+
+    const progressFill =
+      document.getElementById("aaProgressFill");
+
+    const progressTrack =
+      document.getElementById("aaProgressTrack");
+
+    const cardNumber =
+      document.getElementById("aaCardNumber");
+
+    const aminoName =
+      document.getElementById("aaAminoName");
+
+    const aminoSymbol =
+      document.getElementById("aaAminoSymbol");
+
+    const propertyClue =
+      document.getElementById("aaPropertyClue");
+
+    const categorySelect =
+      document.getElementById("aaCategorySelect");
+
+    const feedback =
+      document.getElementById("aaFeedback");
+
+    const saveButton =
+      document.getElementById("aaSaveButton");
+
+    const nextButton =
+      document.getElementById("aaNextButton");
+
+    const resetButton =
+      document.getElementById("aaResetButton");
+
+    const navButtons =
+      document.getElementById("aaNavButtons");
+
+    const scoreCircle =
+      document.getElementById("aaScoreCircle");
+
+    const resultsMessage =
+      document.getElementById("aaResultsMessage");
+
+    const resultsDetail =
+      document.getElementById("aaResultsDetail");
+
+    function setFeedback(message, state) {
+      feedback.textContent = message;
+      feedback.className = "aa-feedback";
+
+      if (state === "correct") {
+        feedback.classList.add("aa-correct");
+      }
+
+      if (state === "incorrect") {
+        feedback.classList.add("aa-incorrect");
+      }
+    }
+
+    function renderCard() {
+      const aminoAcid = aminoAcids[currentIndex];
+      const response = responses[currentIndex];
+
+      cardPosition.textContent =
+        "Amino acid " +
+        (currentIndex + 1) +
+        " of " +
+        aminoAcids.length;
+
+      cardNumber.textContent =
+        "Amino acid " + (currentIndex + 1);
+
+      aminoName.textContent =
+        aminoAcid.name;
+
+      aminoSymbol.textContent =
+        aminoAcid.symbol;
+
+      propertyClue.textContent =
+        aminoAcid.clue;
+
+      categorySelect.value =
+        response.selected;
+
+      if (!response.attempted) {
+        setFeedback(
+          "Select a category and submit your classification.",
+          ""
+        );
+      } else if (response.correct) {
+        setFeedback(
+          "Correct! " +
+          aminoAcid.name +
+          " belongs to the " +
+          categoryNames[aminoAcid.category] +
+          " category. " +
+          categoryFeedback[aminoAcid.category],
+          "correct"
+        );
+      } else {
+        setFeedback(
+          "Incorrect. Review the chemical group described in the clue. " +
+          "Consider whether the R-group avoids water, forms hydrogen bonds, " +
+          "or carries an electrical charge.",
+          "incorrect"
+        );
+      }
+
+      nextButton.textContent =
+        currentIndex === aminoAcids.length - 1
+          ? "Return to First Amino Acid"
+          : "Next Amino Acid";
+
+      updateNavigation();
+      updateProgress();
+    }
+
+    function saveClassification() {
+      const selectedCategory =
+        categorySelect.value;
+
+      if (!selectedCategory) {
+        setFeedback(
+          "Select an R-group category before submitting the classification.",
+          "incorrect"
+        );
+
+        categorySelect.focus();
+        return;
+      }
+
+      const aminoAcid =
+        aminoAcids[currentIndex];
+
+      const response =
+        responses[currentIndex];
+
+      response.selected =
+        selectedCategory;
+
+      response.attempted =
+        true;
+
+      response.correct =
+        selectedCategory === aminoAcid.category;
+
+      if (response.correct) {
+        setFeedback(
+          "Correct! " +
+          aminoAcid.name +
+          " belongs to the " +
+          categoryNames[aminoAcid.category] +
+          " category. " +
+          categoryFeedback[aminoAcid.category],
+          "correct"
+        );
+      } else {
+        setFeedback(
+          "Incorrect. Review the chemical group described in the clue. " +
+          "Consider whether the R-group avoids water, forms hydrogen bonds, " +
+          "or carries an electrical charge.",
+          "incorrect"
+        );
+      }
+
+      updateProgress();
+      updateNavigation();
+      updateBoard();
+      updateResults();
+    }
+
+    function nextCard() {
+      currentIndex =
+        currentIndex === aminoAcids.length - 1
+          ? 0
+          : currentIndex + 1;
+
+      renderCard();
+
+      if (typeof aminoName.focus === "function") {
+        aminoName.focus();
+      }
+    }
+
+    function resetActivity() {
+      const confirmed = window.confirm(
+        "Reset all classifications and begin the activity again?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      responses.forEach(function (response) {
+        response.selected = "";
+        response.attempted = false;
+        response.correct = false;
+      });
+
+      currentIndex = 0;
+
+      updateBoard();
+      updateResults();
+      renderCard();
+    }
+
+    function updateProgress() {
+      const attemptedCount =
+        responses.filter(function (response) {
+          return response.attempted;
+        }).length;
+
+      const percentage =
+        Math.round(
+          (attemptedCount / aminoAcids.length) * 100
+        );
+
+      completionCount.textContent =
+        attemptedCount +
+        " of " +
+        aminoAcids.length +
+        " completed";
+
+      progressFill.style.width =
+        percentage + "%";
+
+      progressTrack.setAttribute(
+        "aria-valuenow",
+        attemptedCount
+      );
+    }
+
+    function updateNavigation() {
+      navButtons.innerHTML = "";
+
+      aminoAcids.forEach(function (aminoAcid, index) {
+        const button =
+          document.createElement("button");
+
+        button.type = "button";
+        button.className = "aa-nav-button";
+        button.textContent = index + 1;
+
+        button.setAttribute(
+          "aria-label",
+          "Open " +
+          aminoAcid.name +
+          ", amino acid " +
+          (index + 1)
+        );
+
+        if (index === currentIndex) {
+          button.classList.add("aa-current");
+          button.setAttribute("aria-current", "step");
+        } else if (responses[index].attempted) {
+          button.classList.add(
+            responses[index].correct
+              ? "aa-completed"
+              : "aa-incorrect-item"
+          );
+        }
+
+        button.addEventListener("click", function () {
+          currentIndex = index;
+          renderCard();
+        });
+
+        navButtons.appendChild(button);
+      });
+    }
+
+    function updateBoard() {
+      const categories = [
+        "nonpolar",
+        "polar",
+        "positive",
+        "negative"
+      ];
+
+      categories.forEach(function (category) {
+        const idMap = {
+          nonpolar: "aaNonpolarBoard",
+          polar: "aaPolarBoard",
+          positive: "aaPositiveBoard",
+          negative: "aaNegativeBoard"
+        };
+
+        const board =
+          document.getElementById(idMap[category]);
+
+        board.innerHTML = "";
+
+        const matches =
+          aminoAcids.filter(function (aminoAcid, index) {
+            return (
+              aminoAcid.category === category &&
+              responses[index].correct
+            );
+          });
+
+        if (matches.length === 0) {
+          const emptyMessage =
+            document.createElement("span");
+
+          emptyMessage.className =
+            "aa-empty-message";
+
+          emptyMessage.textContent =
+            "No amino acids added yet.";
+
+          board.appendChild(emptyMessage);
+          return;
+        }
+
+        matches.forEach(function (aminoAcid) {
+          const chip =
+            document.createElement("span");
+
+          chip.className =
+            "aa-amino-chip";
+
+          chip.textContent =
+            aminoAcid.name +
+            " (" +
+            aminoAcid.symbol +
+            ")";
+
+          board.appendChild(chip);
+        });
+      });
+    }
+
+    function updateResults() {
+      const attemptedCount =
+        responses.filter(function (response) {
+          return response.attempted;
+        }).length;
+
+      const correctCount =
+        responses.filter(function (response) {
+          return response.correct;
+        }).length;
+
+      const score =
+        Math.round(
+          (correctCount / aminoAcids.length) * 100
+        );
+
+      scoreCircle.textContent =
+        score + "%";
+
+      scoreCircle.setAttribute(
+        "aria-label",
+        "Current score: " + score + " percent"
+      );
+
+      resultsDetail.textContent =
+        "Correct classifications: " +
+        correctCount +
+        " of " +
+        aminoAcids.length;
+
+      if (attemptedCount < aminoAcids.length) {
+        resultsMessage.textContent =
+          "Complete all amino acid cards to view your final results.";
+        return;
+      }
+
+      if (correctCount === aminoAcids.length) {
+        resultsMessage.textContent =
+          "You correctly classified every amino acid. You demonstrated how R-group properties distinguish the four categories.";
+      } else if (score >= 75) {
+        resultsMessage.textContent =
+          "You classified most amino acids correctly. Review the cards marked in red and compare their R-group properties.";
+      } else {
+        resultsMessage.textContent =
+          "Review how polarity and electrical charge determine R-group categories, then revise the classifications marked in red.";
+      }
+    }
+
+    saveButton.addEventListener(
+      "click",
+      saveClassification
+    );
+
+    nextButton.addEventListener(
+      "click",
+      nextCard
+    );
+
+    resetButton.addEventListener(
+      "click",
+      resetActivity
+    );
+
+    categorySelect.addEventListener(
+      "change",
+      function () {
+        responses[currentIndex].selected =
+          categorySelect.value;
+      }
+    );
+
+    renderCard();
+    updateBoard();
+    updateResults();
+  })();
+</script>
+</p>
