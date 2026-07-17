@@ -1,4 +1,3 @@
-<h3>Interactive Learning Activity</h3>
 <style>
   .aa-activity,
   .aa-activity * {
@@ -45,17 +44,15 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
-  .aa-activity p {
-    font-size: 16px;
-  }
-
+  .aa-activity p,
   .aa-activity button,
   .aa-activity select {
     font-size: 16px;
   }
 
   .aa-activity button:focus-visible,
-  .aa-activity select:focus-visible {
+  .aa-activity select:focus-visible,
+  .aa-image-container:focus-visible {
     outline: 4px solid #f5b700;
     outline-offset: 3px;
   }
@@ -70,15 +67,6 @@
     );
     border-radius: 18px;
     box-shadow: var(--aa-shadow);
-  }
-
-  .aa-eyebrow {
-    margin: 0 0 8px;
-    color: #b9dcff;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .aa-activity-title {
@@ -229,28 +217,50 @@
     font-weight: 700;
   }
 
-  .aa-amino-name {
-    margin: 6px 0;
-    color: var(--aa-blue);
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.25;
+  .aa-image-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 16px auto 0;
+    padding: 0;
+    text-align: center;
   }
 
-  .aa-amino-symbol {
-    display: inline-block;
-    margin: 5px 0 16px;
-    padding: 5px 11px;
-    color: var(--aa-white);
-    background: var(--aa-blue);
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 700;
+  .aa-amino-image {
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    margin: 0 auto;
+    background: var(--aa-white);
+    border: 1px solid var(--aa-border);
+    border-radius: 10px;
+    object-fit: contain;
   }
 
-  .aa-property-clue {
-    margin: 0;
+  .aa-image-fallback {
+    display: block;
+    margin: 16px 0 0;
+    padding: 18px;
+    color: var(--aa-midnight);
+    background: var(--aa-white);
+    border: 1px solid var(--aa-border);
+    border-radius: 10px;
     font-size: 16px;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .aa-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 
   .aa-response-area {
@@ -551,6 +561,14 @@
       padding: 18px;
     }
 
+    .aa-image-container {
+      margin-top: 12px;
+    }
+
+    .aa-amino-image {
+      max-width: 100%;
+    }
+
     .aa-results-layout {
       grid-template-columns: 1fr;
     }
@@ -573,101 +591,360 @@
     }
   }
 </style>
+
 <div class="aa-activity">
-<div class="aa-hero">
-<div class="aa-activity-title"><span style="color: #c2e0f4;">Amino Acid Classification Lab</span></div>
-<p class="aa-hero-description"><span style="color: #ecf0f1;">Practice grouping amino acids according to the chemical properties of their R-groups. You will review one amino acid at a time, select its category, and watch the classification board fill as you complete the activity.</span></p>
-<div class="aa-hero-grid">
-<div class="aa-info-card" role="region" aria-labelledby="aa-purpose-title">
-<div class="aa-section-title" id="aa-purpose-title">Purpose</div>
-<p>R-group properties influence how amino acids interact with water, other amino acids, and their surrounding environment. These interactions contribute to protein structure, stability, and function.</p>
+  <div class="aa-hero">
+    <div class="aa-activity-title">
+      Amino Acid Classification Lab
+    </div>
+
+    <p class="aa-hero-description">
+      Practice grouping amino acids according to the chemical properties of
+      their R-groups. You will review one amino acid at a time, select its
+      category, and watch the classification board fill as you complete the
+      activity.
+    </p>
+
+    <div class="aa-hero-grid">
+      <div
+        class="aa-info-card"
+        role="region"
+        aria-labelledby="aa-purpose-title"
+      >
+        <div class="aa-section-title" id="aa-purpose-title">
+          Purpose
+        </div>
+
+        <p>
+          R-group properties influence how amino acids interact with water,
+          other amino acids, and their surrounding environment. These
+          interactions contribute to protein structure, stability, and
+          function.
+        </p>
+      </div>
+
+      <div
+        class="aa-info-card"
+        role="region"
+        aria-labelledby="aa-instructions-title"
+      >
+        <div class="aa-section-title" id="aa-instructions-title">
+          How It Works
+        </div>
+
+        <ul>
+          <li>Review one amino acid structure at a time.</li>
+          <li>Examine the highlighted R-group.</li>
+          <li>Select the matching R-group category.</li>
+          <li>Submit the classification to receive feedback.</li>
+          <li>Continue until all amino acids are classified.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="aa-workspace">
+    <div class="aa-panel">
+      <div class="aa-panel-label">
+        Classification Lab
+      </div>
+
+      <div class="aa-panel-content">
+        <div class="aa-panel-title">
+          Amino Acid Review Panel
+        </div>
+
+        <p>
+          Examine each structural diagram and classify the amino acid
+          according to the chemical properties of its R-group.
+        </p>
+
+        <div class="aa-progress-row">
+          <span id="aaCardPosition">
+            Amino acid 1 of 16
+          </span>
+
+          <span id="aaCompletionCount">
+            0 of 16 completed
+          </span>
+        </div>
+
+        <div
+          class="aa-progress-track"
+          id="aaProgressTrack"
+          role="progressbar"
+          aria-label="Activity completion"
+          aria-valuemin="0"
+          aria-valuemax="16"
+          aria-valuenow="0"
+        >
+          <div
+            class="aa-progress-fill"
+            id="aaProgressFill"
+          ></div>
+        </div>
+
+        <div
+          class="aa-card"
+          role="region"
+          aria-labelledby="aaCardNumber"
+        >
+          <p
+            class="aa-card-number"
+            id="aaCardNumber"
+          >
+            Amino acid 1
+          </p>
+
+          <div
+            class="aa-image-container"
+            id="aaImageContainer"
+            tabindex="-1"
+          >
+            <img
+              class="aa-amino-image"
+              id="aaAminoImage"
+              src="https://assets.wgu.edu/05bf38c56e9e9137da85f0220c9c0f13"
+              alt="Structural diagram of alanine. Alanine is abbreviated Ala and A. Its R-group is a methyl group."
+            >
+          </div>
+
+          <div
+            class="aa-visually-hidden"
+            id="aaImageDescription"
+          >
+            Alanine, abbreviated Ala and A. Its R-group is a methyl group.
+          </div>
+
+          <div class="aa-response-area">
+            <label for="aaCategorySelect">
+              Choose the R-group category
+            </label>
+
+            <select
+              class="aa-category-select"
+              id="aaCategorySelect"
+            >
+              <option value="">
+                Select a category
+              </option>
+
+              <option value="nonpolar">
+                Nonpolar (hydrophobic)
+              </option>
+
+              <option value="polar">
+                Polar (uncharged)
+              </option>
+
+              <option value="positive">
+                Positively charged (basic)
+              </option>
+
+              <option value="negative">
+                Negatively charged (acidic)
+              </option>
+            </select>
+          </div>
+
+          <div class="aa-button-row">
+            <button
+              type="button"
+              class="aa-button"
+              id="aaSaveButton"
+            >
+              Submit Classification
+            </button>
+
+            <button
+              type="button"
+              class="aa-button aa-button-secondary"
+              id="aaNextButton"
+            >
+              Next Amino Acid
+            </button>
+
+            <button
+              type="button"
+              class="aa-button aa-button-reset"
+              id="aaResetButton"
+            >
+              Reset Activity
+            </button>
+          </div>
+
+          <div
+            class="aa-feedback"
+            id="aaFeedback"
+            role="status"
+            aria-live="polite"
+          >
+            Select a category and submit your classification.
+          </div>
+        </div>
+
+        <div
+          class="aa-navigation"
+          role="navigation"
+          aria-label="Amino acid navigation"
+        >
+          <div class="aa-navigation-title">
+            Amino Acid Navigation
+          </div>
+
+          <p>
+            Use these buttons to review the amino acids in any order.
+          </p>
+
+          <div
+            class="aa-nav-buttons"
+            id="aaNavButtons"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="aa-board-panel"
+      role="region"
+      aria-labelledby="aaBoardTitle"
+    >
+      <div class="aa-panel-label">
+        Classification Board
+      </div>
+
+      <div class="aa-panel-content">
+        <div
+          class="aa-panel-title"
+          id="aaBoardTitle"
+        >
+          Growing R-Group Board
+        </div>
+
+        <p>
+          Each correctly classified amino acid appears in its matching
+          category.
+        </p>
+
+        <div class="aa-board-grid">
+          <div class="aa-category aa-category-nonpolar">
+            <div class="aa-category-title">
+              Nonpolar (Hydrophobic)
+            </div>
+
+            <p>
+              R-groups that tend to avoid water and participate in
+              hydrophobic interactions.
+            </p>
+
+            <div
+              class="aa-category-items"
+              id="aaNonpolarBoard"
+            >
+              <span class="aa-empty-message">
+                No amino acids added yet.
+              </span>
+            </div>
+          </div>
+
+          <div class="aa-category aa-category-polar">
+            <div class="aa-category-title">
+              Polar (Uncharged)
+            </div>
+
+            <p>
+              R-groups that can interact with water and often form hydrogen
+              bonds.
+            </p>
+
+            <div
+              class="aa-category-items"
+              id="aaPolarBoard"
+            >
+              <span class="aa-empty-message">
+                No amino acids added yet.
+              </span>
+            </div>
+          </div>
+
+          <div class="aa-category aa-category-positive">
+            <div class="aa-category-title">
+              Positively Charged (Basic)
+            </div>
+
+            <p>
+              R-groups that can form ionic attractions with negatively
+              charged groups.
+            </p>
+
+            <div
+              class="aa-category-items"
+              id="aaPositiveBoard"
+            >
+              <span class="aa-empty-message">
+                No amino acids added yet.
+              </span>
+            </div>
+          </div>
+
+          <div class="aa-category aa-category-negative">
+            <div class="aa-category-title">
+              Negatively Charged (Acidic)
+            </div>
+
+            <p>
+              R-groups that can form ionic attractions with positively
+              charged groups.
+            </p>
+
+            <div
+              class="aa-category-items"
+              id="aaNegativeBoard"
+            >
+              <span class="aa-empty-message">
+                No amino acids added yet.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="aa-results-panel"
+    role="region"
+    aria-labelledby="aaResultsTitle"
+  >
+    <div class="aa-results-layout">
+      <div
+        class="aa-score-circle"
+        id="aaScoreCircle"
+        aria-label="Current score"
+      >
+        0%
+      </div>
+
+      <div>
+        <div
+          class="aa-results-title"
+          id="aaResultsTitle"
+        >
+          Lab Results
+        </div>
+
+        <p id="aaResultsMessage">
+          Complete all amino acid cards to view your final results.
+        </p>
+
+        <p id="aaResultsDetail">
+          Correct classifications: 0 of 16
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="aa-info-card" role="region" aria-labelledby="aa-instructions-title">
-<div class="aa-section-title" id="aa-instructions-title">How It Works</div>
-<ul>
-<li>Review one amino acid and its R-group clue.</li>
-<li>Select the matching R-group category.</li>
-<li>Submit the classification to receive feedback.</li>
-<li>Continue until all amino acids are classified.</li>
-<li>Watch the R-group classification board fill automatically.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="aa-workspace">
-<div class="aa-panel">
-<div class="aa-panel-label">Classification Lab</div>
-<div class="aa-panel-content">
-<div class="aa-panel-title">Amino Acid Review Panel</div>
-<p>Classify each amino acid according to the chemical properties of its R-group.</p>
-<div class="aa-progress-row"><span id="aaCardPosition"> Amino acid 1 of 16 </span> <span id="aaCompletionCount"> 0 of 16 completed </span></div>
-<div class="aa-progress-track" id="aaProgressTrack" role="progressbar" aria-label="Activity completion" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0">
-<div class="aa-progress-fill" id="aaProgressFill"></div>
-</div>
-<div class="aa-card" role="region" aria-labelledby="aaAminoName">
-<p class="aa-card-number" id="aaCardNumber">Amino acid 1</p>
-<div class="aa-amino-name" id="aaAminoName" tabindex="-1">Alanine</div>
-<span class="aa-amino-symbol" id="aaAminoSymbol"> Ala · A </span>
-<p class="aa-property-clue" id="aaPropertyClue">Its R-group is a small hydrocarbon that does not carry a charge.</p>
-<div class="aa-response-area"><label for="aaCategorySelect"> Choose the R-group category </label><select class="aa-category-select" id="aaCategorySelect">
-<option value="">Select a category</option>
-<option value="nonpolar">Nonpolar (hydrophobic)</option>
-<option value="polar">Polar (uncharged)</option>
-<option value="positive">Positively charged (basic)</option>
-<option value="negative">Negatively charged (acidic)</option>
-</select></div>
-<div class="aa-button-row"><button type="button" class="aa-button" id="aaSaveButton"> Submit Classification </button> <button type="button" class="aa-button aa-button-secondary" id="aaNextButton"> Next Amino Acid </button> <button type="button" class="aa-button aa-button-reset" id="aaResetButton"> Reset Activity </button></div>
-<div class="aa-feedback" id="aaFeedback" role="status" aria-live="polite">Select a category and submit your classification.</div>
-</div>
-<div class="aa-navigation" role="navigation" aria-label="Amino acid navigation">
-<div class="aa-navigation-title">Amino Acid Navigation</div>
-<p>Use these buttons to review the amino acids in any order.</p>
-<div class="aa-nav-buttons" id="aaNavButtons"></div>
-</div>
-</div>
-</div>
-<div class="aa-board-panel" role="region" aria-labelledby="aaBoardTitle">
-<div class="aa-panel-label">Classification Board</div>
-<div class="aa-panel-content">
-<div class="aa-panel-title" id="aaBoardTitle">Growing R-Group Board</div>
-<p>Each correctly classified amino acid appears in its matching category.</p>
-<div class="aa-board-grid">
-<div class="aa-category aa-category-nonpolar">
-<div class="aa-category-title">Nonpolar (Hydrophobic)</div>
-<p>R-groups that tend to avoid water and participate in hydrophobic interactions.</p>
-<div class="aa-category-items" id="aaNonpolarBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
-</div>
-<div class="aa-category aa-category-polar">
-<div class="aa-category-title">Polar (Uncharged)</div>
-<p>R-groups that can interact with water and often form hydrogen bonds.</p>
-<div class="aa-category-items" id="aaPolarBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
-</div>
-<div class="aa-category aa-category-positive">
-<div class="aa-category-title">Positively Charged (Basic)</div>
-<p>R-groups that can form ionic attractions with negatively charged groups.</p>
-<div class="aa-category-items" id="aaPositiveBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
-</div>
-<div class="aa-category aa-category-negative">
-<div class="aa-category-title">Negatively Charged (Acidic)</div>
-<p>R-groups that can form ionic attractions with positively charged groups.</p>
-<div class="aa-category-items" id="aaNegativeBoard"><span class="aa-empty-message"> No amino acids added yet. </span></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="aa-results-panel" role="region" aria-labelledby="aaResultsTitle">
-<div class="aa-results-layout">
-<div class="aa-score-circle" id="aaScoreCircle" aria-label="Current score">0%</div>
-<div>
-<div class="aa-results-title" id="aaResultsTitle">Lab Results</div>
-<p id="aaResultsMessage">Complete all amino acid cards to view your final results.</p>
-<p id="aaResultsDetail">Correct classifications: 0 of 16</p>
-</div>
-</div>
-</div>
-</div>
-<p>
+
 <script>
   (function () {
     "use strict";
@@ -678,113 +955,160 @@
         symbol: "Ala · A",
         category: "nonpolar",
         clue:
-          "Its R-group is a small hydrocarbon that does not carry a charge."
+          "Its R-group is a small hydrocarbon that does not carry a charge.",
+        image: "https://assets.wgu.edu/05bf38c56e9e9137da85f0220c9c0f13",
+        imageAlt:
+          "Structural diagram of alanine. Alanine is abbreviated Ala and A. Its R-group is a methyl group."
       },
       {
         name: "Glutamate",
         symbol: "Glu · E",
         category: "negative",
         clue:
-          "Its side-chain carboxylate commonly carries a negative charge under physiological conditions."
+          "Its side-chain carboxylate commonly carries a negative charge under physiological conditions.",
+        image: "https://assets.wgu.edu/2aa56a3bff9d4b6f4622202ae6a31c40",
+        imageAlt:
+          "Structural diagram of glutamate. Glutamate is abbreviated Glu and E. Its R-group contains two methylene groups and a carboxylate group."
       },
       {
         name: "Leucine",
         symbol: "Leu · L",
         category: "nonpolar",
         clue:
-          "Its hydrocarbon side chain tends to cluster away from water."
-      },
-       {
-        name: "Histidine",
-        symbol: "His · H",
-        category: "positive",
-        clue:
-          "Its imidazole R-group can accept or release a proton near physiological pH."
+          "Its hydrocarbon side chain tends to cluster away from water.",
+        image: "https://assets.wgu.edu/043b4c6a100c447a97b7c1c50a9f2bd0",
+        imageAlt:
+          "Structural diagram of leucine. Leucine is abbreviated Leu and L. Its R-group is an isobutyl group."
       },
       {
         name: "Glutamine",
         symbol: "Gln · Q",
         category: "polar",
         clue:
-          "Its uncharged amide-containing R-group can interact with water."
+          "Its uncharged amide-containing R-group can interact with water.",
+        image: "https://assets.wgu.edu/cab0e54a2cad65a7ca7a3dc1fb9e35ad",
+        imageAlt:
+          "Structural diagram of glutamine. Glutamine is abbreviated Gln and Q. Its R-group contains two methylene groups and an amide group."
       },
       {
         name: "Serine",
         symbol: "Ser · S",
         category: "polar",
         clue:
-          "Its R-group contains a hydroxyl group that can form hydrogen bonds."
+          "Its R-group contains a hydroxyl group that can form hydrogen bonds.",
+        image: "https://assets.wgu.edu/423ebe31ea04d85a370cf38b1fdcffa3",
+        imageAlt:
+          "Structural diagram of serine. Serine is abbreviated Ser and S. Its R-group is a hydroxymethyl group."
       },
       {
         name: "Isoleucine",
         symbol: "Ile · I",
         category: "nonpolar",
         clue:
-          "Its branched hydrocarbon side chain is hydrophobic."
+          "Its branched hydrocarbon side chain is hydrophobic.",
+        image: "https://assets.wgu.edu/1179431cefb2781dd4431e865c48f059",
+        imageAlt:
+          "Structural diagram of isoleucine. Isoleucine is abbreviated Ile and I. Its R-group is a branched sec-butyl group."
       },
       {
         name: "Threonine",
         symbol: "Thr · T",
         category: "polar",
         clue:
-          "Its uncharged hydroxyl-containing R-group interacts with water."
+          "Its uncharged hydroxyl-containing R-group interacts with water.",
+        image: "https://assets.wgu.edu/9ec7f231156f0ba606c58ea4b157c78b",
+        imageAlt:
+          "Structural diagram of threonine. Threonine is abbreviated Thr and T. Its R-group contains a hydroxyl group and a methyl group."
       },
       {
         name: "Valine",
         symbol: "Val · V",
         category: "nonpolar",
         clue:
-          "Its branched hydrocarbon R-group does not interact readily with water."
+          "Its branched hydrocarbon R-group does not interact readily with water.",
+        image: "https://assets.wgu.edu/f2c27daa97db0c8ff2249a4e0e47c4e5",
+        imageAlt:
+          "Structural diagram of valine. Valine is abbreviated Val and V. Its R-group is an isopropyl group."
       },
       {
         name: "Asparagine",
         symbol: "Asn · N",
         category: "polar",
         clue:
-          "Its amide-containing R-group can form hydrogen bonds but has no net charge."
+          "Its amide-containing R-group can form hydrogen bonds but has no net charge.",
+        image: "https://assets.wgu.edu/cc7e3df9c34c64ca833e3f2dacb27ee5",
+        imageAlt:
+          "Structural diagram of asparagine. Asparagine is abbreviated Asn and N. Its R-group contains a methylene group and an amide group."
       },
       {
         name: "Lysine",
         symbol: "Lys · K",
         category: "positive",
         clue:
-          "Its R-group commonly contains a positively charged amino group under physiological conditions."
+          "Its R-group commonly contains a positively charged amino group under physiological conditions.",
+        image: "https://assets.wgu.edu/e9eb06ed7f5a678fddf98d37ab027bc5",
+        imageAlt:
+          "Structural diagram of lysine. Lysine is abbreviated Lys and K. Its R-group contains four methylene groups and a terminal amino group."
       },
       {
         name: "Phenylalanine",
         symbol: "Phe · F",
         category: "nonpolar",
         clue:
-          "Its aromatic hydrocarbon ring is largely hydrophobic."
+          "Its aromatic hydrocarbon ring is largely hydrophobic.",
+        image: "https://assets.wgu.edu/858b271731fc472c735518c90fbf6b11",
+        imageAlt:
+          "Structural diagram of phenylalanine. Phenylalanine is abbreviated Phe and F. Its R-group contains a methylene group attached to a benzene ring."
       },
       {
         name: "Arginine",
         symbol: "Arg · R",
         category: "positive",
         clue:
-          "Its guanidinium-containing R-group commonly carries a positive charge."
+          "Its guanidinium-containing R-group commonly carries a positive charge.",
+        image: "https://assets.wgu.edu/82c56164243b46e4287a3bfbb2096d3a",
+        imageAlt:
+          "Structural diagram of arginine. Arginine is abbreviated Arg and R. Its R-group contains three methylene groups and a guanidinium group."
       },
       {
         name: "Tyrosine",
         symbol: "Tyr · Y",
         category: "polar",
         clue:
-          "Its phenolic hydroxyl group can participate in hydrogen bonding."
+          "Its phenolic hydroxyl group can participate in hydrogen bonding.",
+        image: "https://assets.wgu.edu/020cd4f19e977d5a64db7ae1b54c9416",
+        imageAlt:
+          "Structural diagram of tyrosine. Tyrosine is abbreviated Tyr and Y. Its R-group contains a phenolic ring."
       },
-     
+      {
+        name: "Histidine",
+        symbol: "His · H",
+        category: "positive",
+        clue:
+          "Its imidazole R-group can accept or release a proton near physiological pH.",
+        image: "https://assets.wgu.edu/e0b3cffc3be0df0f66ee537348488d26",
+        imageAlt:
+          "Structural diagram of histidine. Histidine is abbreviated His and H. Its R-group contains an imidazole ring."
+      },
       {
         name: "Aspartate",
         symbol: "Asp · D",
         category: "negative",
         clue:
-          "Its R-group contains a carboxylate group that commonly carries a negative charge."
+          "Its R-group contains a carboxylate group that commonly carries a negative charge.",
+        image: "https://assets.wgu.edu/72b525b33827fd489a90a507fa9403eb",
+        imageAlt:
+          "Structural diagram of aspartate. Aspartate is abbreviated Asp and D. Its R-group contains a methylene group and a carboxylate group."
       },
       {
         name: "Methionine",
         symbol: "Met · M",
         category: "nonpolar",
         clue:
-          "Its sulfur-containing thioether side chain is largely hydrophobic and uncharged."
+          "Its sulfur-containing thioether side chain is largely hydrophobic and uncharged.",
+        image: "https://assets.wgu.edu/e081d73f0360839d05ab8d966035aeb3",
+        imageAlt:
+          "Structural diagram of methionine. Methionine is abbreviated Met and M. Its R-group contains a thioether group."
       }
     ];
 
@@ -831,14 +1155,14 @@
     const cardNumber =
       document.getElementById("aaCardNumber");
 
-    const aminoName =
-      document.getElementById("aaAminoName");
+    const aminoImage =
+      document.getElementById("aaAminoImage");
 
-    const aminoSymbol =
-      document.getElementById("aaAminoSymbol");
+    const imageContainer =
+      document.getElementById("aaImageContainer");
 
-    const propertyClue =
-      document.getElementById("aaPropertyClue");
+    const imageDescription =
+      document.getElementById("aaImageDescription");
 
     const categorySelect =
       document.getElementById("aaCategorySelect");
@@ -880,6 +1204,46 @@
       }
     }
 
+    function updateImage(aminoAcid) {
+      aminoImage.style.display = "block";
+      imageDescription.className = "aa-visually-hidden";
+
+      aminoImage.alt = aminoAcid.imageAlt;
+
+      aminoImage.onerror = function () {
+        aminoImage.style.display = "none";
+        imageDescription.className = "aa-image-fallback";
+
+        imageDescription.textContent =
+          aminoAcid.name +
+          " (" +
+          aminoAcid.symbol +
+          "). " +
+          aminoAcid.clue;
+      };
+
+      aminoImage.onload = function () {
+        aminoImage.style.display = "block";
+        imageDescription.className = "aa-visually-hidden";
+
+        imageDescription.textContent =
+          aminoAcid.name +
+          " (" +
+          aminoAcid.symbol +
+          "). " +
+          aminoAcid.clue;
+      };
+
+      aminoImage.src = aminoAcid.image;
+
+      imageDescription.textContent =
+        aminoAcid.name +
+        " (" +
+        aminoAcid.symbol +
+        "). " +
+        aminoAcid.clue;
+    }
+
     function renderCard() {
       const aminoAcid = aminoAcids[currentIndex];
       const response = responses[currentIndex];
@@ -893,14 +1257,7 @@
       cardNumber.textContent =
         "Amino acid " + (currentIndex + 1);
 
-      aminoName.textContent =
-        aminoAcid.name;
-
-      aminoSymbol.textContent =
-        aminoAcid.symbol;
-
-      propertyClue.textContent =
-        aminoAcid.clue;
+      updateImage(aminoAcid);
 
       categorySelect.value =
         response.selected;
@@ -922,9 +1279,7 @@
         );
       } else {
         setFeedback(
-          "Incorrect. Review the chemical group described in the clue. " +
-          "Consider whether the R-group avoids water, forms hydrogen bonds, " +
-          "or carries an electrical charge.",
+          "Incorrect. Examine the highlighted R-group. Consider whether it avoids water, forms hydrogen bonds, or carries an electrical charge.",
           "incorrect"
         );
       }
@@ -979,9 +1334,7 @@
         );
       } else {
         setFeedback(
-          "Incorrect. Review the chemical group described in the clue. " +
-          "Consider whether the R-group avoids water, forms hydrogen bonds, " +
-          "or carries an electrical charge.",
+          "Incorrect. Examine the highlighted R-group. Consider whether it avoids water, forms hydrogen bonds, or carries an electrical charge.",
           "incorrect"
         );
       }
@@ -1000,8 +1353,8 @@
 
       renderCard();
 
-      if (typeof aminoName.focus === "function") {
-        aminoName.focus();
+      if (typeof imageContainer.focus === "function") {
+        imageContainer.focus();
       }
     }
 
@@ -1100,14 +1453,14 @@
         "negative"
       ];
 
-      categories.forEach(function (category) {
-        const idMap = {
-          nonpolar: "aaNonpolarBoard",
-          polar: "aaPolarBoard",
-          positive: "aaPositiveBoard",
-          negative: "aaNegativeBoard"
-        };
+      const idMap = {
+        nonpolar: "aaNonpolarBoard",
+        polar: "aaPolarBoard",
+        positive: "aaPositiveBoard",
+        negative: "aaNegativeBoard"
+      };
 
+      categories.forEach(function (category) {
         const board =
           document.getElementById(idMap[category]);
 
@@ -1229,4 +1582,3 @@
     updateResults();
   })();
 </script>
-</p>
