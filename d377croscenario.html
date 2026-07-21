@@ -1,14 +1,13 @@
-
 <div class="cro-assessment">
   <div class="cro-header">
     <h2>CRO Challenge: Orange Zest Café</h2>
-    <p>Help Orange Zest Café improve loyalty card sign-ups by choosing the best CRO concept for each scenario.</p>
+    <p>Help Orange Zest Café improve conversions from email campaigns and ads to its website landing page.</p>
   </div>
 
   <div class="cro-body">
     <div class="scenario-box">
       <h3>Scenario</h3>
-      <p>Orange Zest Café wants more customers to sign up for its loyalty card through the website. Kaitlin is testing social posts, landing pages, and calls to action to see what improves conversions.</p>
+      <p>Orange Zest Café is running email campaigns and digital ads to promote its loyalty program. Kaitlin is testing different calls to action (CTAs), email designs, and landing pages to increase the number of customers who click through and complete sign-ups.</p>
     </div>
 
     <div id="questions"></div>
@@ -160,42 +159,42 @@ button:hover {
 <script>
 const croQuestions = [
   {
-    prompt: "1. Kaitlin wants to know how many visitors complete the main goal: signing up for the loyalty card.",
+    prompt: "1. A customer clicks a 'Join Now' button in an email and completes the loyalty sign-up form on the landing page.",
     answer: "macro-conversion",
-    feedback: "A macro-conversion is the main goal of the campaign."
+    feedback: "A macro-conversion is the main goal, such as completing the sign-up."
   },
   {
-    prompt: "2. A visitor clicks from Instagram, views the loyalty page, and starts filling out the form but does not submit it.",
+    prompt: "2. A customer clicks an ad, visits the landing page, and begins filling out the form but does not submit it.",
+    answer: "abandon",
+    feedback: "Abandon means the user started an action but did not complete it."
+  },
+  {
+    prompt: "3. A customer clicks a CTA in an email and views the landing page but takes no further action.",
     answer: "micro-conversion",
-    feedback: "A micro-conversion shows progress toward the main goal."
+    feedback: "Clicking through to the landing page is a micro-conversion showing interest."
   },
   {
-    prompt: "3. Orange Zest notices that many visitors reach the sign-up page but leave before submitting the form.",
-    answer: "conversion funnel",
-    feedback: "The conversion funnel helps marketers identify where people drop off."
-  },
-  {
-    prompt: "4. Kaitlin creates a webpage focused only on the loyalty card offer, with no extra menu distractions.",
+    prompt: "4. Kaitlin designs a webpage specifically for visitors coming from email and ads, focused only on the loyalty offer.",
     answer: "landing page",
-    feedback: "A landing page is designed around one clear marketing goal."
+    feedback: "A landing page is designed for a single goal and matches the campaign message."
   },
   {
-    prompt: "5. The page button says 'Join the Loyalty Program' instead of 'Click Here.'",
+    prompt: "5. An email includes a button that says 'Get Your Free Coffee Reward' instead of 'Click Here.'",
     answer: "call to action (CTA)",
-    feedback: "A CTA tells users exactly what action to take."
+    feedback: "A CTA clearly tells users what action to take."
   },
   {
-    prompt: "6. Kaitlin compares two versions of the sign-up page: one with a blue button and one with an orange button.",
+    prompt: "6. Kaitlin compares two email versions: one with 'Join Now' and one with 'Start Earning Rewards' as the CTA.",
     answer: "A/B testing",
-    feedback: "A/B testing compares two versions or one major change."
+    feedback: "A/B testing compares two versions to see which performs better."
   },
   {
-    prompt: "7. Kaitlin tests several headlines, images, button colors, and form lengths at the same time.",
+    prompt: "7. Kaitlin tests different combinations of email subject lines, CTA buttons, and landing page images at the same time.",
     answer: "multivariate testing",
     feedback: "Multivariate testing evaluates multiple elements and combinations."
   },
   {
-    prompt: "8. The original page had a 5% conversion rate. The new page has a 7% conversion rate.",
+    prompt: "8. The email campaign originally had a 6% conversion rate, and after changes it increased to 9%.",
     answer: "lift",
     feedback: "Lift is the improvement in performance after a change."
   }
@@ -209,7 +208,8 @@ const options = [
   "call to action (CTA)",
   "A/B testing",
   "multivariate testing",
-  "lift"
+  "lift",
+  "abandon"
 ];
 
 function buildQuiz() {
@@ -278,7 +278,7 @@ function checkAnswers() {
   results.className = score >= 6 ? "results-good" : "results-review";
   results.innerHTML = `You answered ${score} out of ${croQuestions.length} correctly. ${
     score >= 6
-      ? "Great work! You are ready to describe the CRO process."
+      ? "Great work! You understand how CTAs and landing pages drive conversions."
       : "Review the feedback above, then try again."
   }`;
 }
